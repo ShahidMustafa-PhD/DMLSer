@@ -28,22 +28,21 @@ main(int argc, char **argv)
     
     // Convert arguments to UTF-8 (needed on Windows).
     // argv then points to memory owned by a.
-   // boost::nowide::args a(argc, argv);
+    // boost::nowide::args a(argc, argv);
     
     // -parse all command line options into a DynamicConfig
     ConfigDef config_def; // always neede to declare
     config_def.merge(cli_config_def);  // global declaration  of class object..
     config_def.merge(print_config_def); //  global declaration of class object 
     // -the global configuration objects are  merged.
-	DynamicConfig config(&config_def); //  Just an object of dynamic config
+    DynamicConfig config(&config_def); //  Just an object of dynamic config
     t_config_option_keys input_files; //  just the  string vector
     config.read_cli(argc, argv, &input_files);//reads the CLI commands 
-	// -saves the name of config.ini files(--load  [name1].ini --load  [name2].ini)
+    // -saves the name of config.ini files(--load  [name1].ini --load  [name2].ini)
     // -saves the names of *.stl files in  vector input_files 
     // -apply command line options to a more handy CLIConfig
     CLIConfig cli_config;
     cli_config.apply(config, true); // -seperates the cli commands 
-    
     DynamicPrintConfig print_config;  //-every volume meeds this 
 
     // load config files supplied via --load
@@ -80,33 +79,25 @@ main(int argc, char **argv)
     // -std::vector<Model> models;
 	Model  slm_model;
 	Print* slm_print =new Print();
-
 	ModelObject* modobj=slm_model.add_object();
-
 	slm_model.repair();
         ModelVolume* stlvolumeptr;
 	// -for every stl
-    //- input_files  contains all the stl files....
+        //- input_files  contains all the stl files....
 	for (const t_config_option_key &file : input_files) {
-        
             if (!boost::filesystem::exists(file)) 
             boost::nowide::cerr << "No such file: " << file << std::endl;
-           // exit(1);
             else
-            {		   
-		//DynamicPrintConfig print_config;  //  Every volume meeds this 
+            {		    
 	    TriangleMesh modmesh; 
 	    std::string name= file.substr(0, file.size()-4);
         try {
-			//modmesh.repair();
                 modmesh.ReadSTLFile(file);	
 		std::string name= file.substr(0, file.size()-4);
-			//stls.push_back(name);
 		stlvolumeptr=modobj->add_volume(modmesh);
 		stlvolumeptr->name=name;
 		stlvolumeptr->modifier=false;
 				
-
         } catch (std::exception &e) {
 			
             boost::nowide::cerr << file << ": " << e.what() << std::endl;
@@ -122,10 +113,10 @@ main(int argc, char **argv)
 	        DynamicPrintConfig print_config;
 	        DynamicPrintConfig c =volumeconfig(config_file);
 	        print_config.apply(c);
-		    print_config.apply(config, true);
-            print_config.normalize();
-		    stlvolumeptr->config=print_config;
-		    slm_print->apply_config(print_config);
+		print_config.apply(config, true);
+                print_config.normalize();
+		stlvolumeptr->config=print_config;
+		slm_print->apply_config(print_config);
 	        boost::nowide::cout << name<<  " :=: "<<name_config <<std::endl;
 			break;
 		}
@@ -136,10 +127,10 @@ main(int argc, char **argv)
 		
 if (slm_model.objects.empty()) 
 {
-	boost::nowide::cout << "empty: " << std::endl;
+    boost::nowide::cout << "empty: " << std::endl;
     boost::nowide::cerr << "Error: Model object empty: "  << std::endl;
-            //continue;
-	exit(1);
+    //continue;
+    exit(1);
 }
 slm_model.add_default_instances();
 
@@ -158,18 +149,15 @@ slm_model.print_info();
 else if (cli_config.export_svg) 
            {
          	std::cout  <<".....svg now:...... " << std::endl;
-			slm_print->objects.front()->_slice();
-		    //while(!slm_print->objects.front()->state.is_done(posSlice)); 
-			boost::nowide::cout << ".......slice done........: " << std::endl;
-			slm_print->objects.front()->detect_surfaces_type();//slm_model.bounding_box()
-            slm_print->objects.front()->_infill();//slm_model.bounding_box()
-			// while(!slm_print->objects.front()->state.is_done(posInfill));
-			slm_print->objects.front()->Support_pillers();
-			slm_print->objects.front()->write_svg();
-			//boost::this_thread::sleep(boost::posix_time::milliseconds(5000));
-			//slm_print->print_svg(std::string("printsvg"));
+		slm_print->objects.front()->_slice(); 
+		boost::nowide::cout << ".......slice done........: " << std::endl;
+		slm_print->objects.front()->detect_surfaces_type();//slm_model.bounding_box()
+                slm_print->objects.front()->_infill();//slm_model.bounding_box()
+		slm_print->objects.front()->Support_pillers();
+		slm_print->objects.front()->write_svg();
+
         }  else {
-            boost::nowide::cerr << "error: command not supported" << std::endl;
+                boost::nowide::cerr << "error: command not supported" << std::endl;
             return 1;
         }
     
