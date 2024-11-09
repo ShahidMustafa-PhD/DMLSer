@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+
+    {"name":"boost-thread"},
+    {"name":"boost-system"},
+    {"name":"boost-filesystem"},
+    {"name":"boost-endian"},
+    {"name":"boost-polygon"},
+    {"name":"boost-locale"},
+    {"name":"boost-algorithm"},
+    {"name":"boost-property-tree"},
+    {"name":"boost-nowide"},
+    {"name":"boost-foreach"}
+  ],
+  "overrides": [
+        { "name": "boost-thread", "version": "1.66.0" },
+        { "name": "boost-system", "version": "1.66.0" },
+        { "name": "boost-filesystem", "version": "1.66.0"},
+        { "name": "boost-endian", "version": "1.66.0"},
+        { "name": "boost-polygon", "version": "1.66.0"},
+        { "name": "boost-locale", "version": "1.83.0"},
+        { "name": "boost-algorithm", "version": "1.66.0"},
+        { "name": "boost-property-tree", "version": "1.66.0"}
+    ]
+
+}
