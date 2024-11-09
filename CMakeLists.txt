@@ -144,6 +144,5 @@ target_link_libraries (DMLSer PRIVATE dmls  Boost::thread  Boost::system  Boost:
 IF (WIN32)
     add_library(boost-nowide STATIC ${LIBDIR}/boost/nowide/iostream.cpp)
     target_link_libraries(DMLSer boost-nowide)
-
 ENDIF(WIN32)
 
